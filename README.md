@@ -17,7 +17,7 @@ I recommend running it as detached container with autorestart:
 docker run \
   --net=host \      # use host network, no need to be shy
   --name=canary \   # let us call it canary 
-  -v /etc/opencaanary/opencanary.conf:/opencanary.conf \ # map the config file 
+  -v /etc/opencanary/opencanary.conf:/opencanary.conf \ # map the config file. Make sure the file is actually there. 
   --restart=always \ # restart on reboot or on failure
   -d \              # detach 
   avi0/opencanary:0.1
