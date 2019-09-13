@@ -9,5 +9,5 @@ docker run \
   -v /etc/opencaanary/opencanary.conf:/opencanary.conf \
   --restart=always \
   -d \
-  opencanary:latest
+  avi0/opencanary:0.1
 docker logs -f $NAME
