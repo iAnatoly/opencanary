@@ -1,5 +1,5 @@
 # opencanary
-## opencanary in a docker - starting fresh to avoid garbage
+## opencanary in a docker container
 
 This is a simple docker iomage to run opencanary and keeping its weird dependencies contained.
 
@@ -20,7 +20,8 @@ docker run \
   -v /etc/opencaanary/opencanary.conf:/opencanary.conf \ # map the config file 
   --restart=always \ # restart on reboot or on failure
   -d \              # detach 
-  iAnatoly/opencanary:latest
+  avi0/opencanary:0.1
 
 docker logs -f canary # display the logs on console; safe to terminate
 ```
+Note: for Raspbery Pi 3b use avi0/opencanary:0.1-arm32v7 tag
