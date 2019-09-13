@@ -1,12 +1,13 @@
 #!/bin/sh
-docker stop opencanary
-docker rm opencanary
+NAME='canary'
+docker stop $NAME
+docker rm $NAME
 docker run \
   --net=host \
-  --name=canary \
+  --name=$NAME \
   -e TZ=US/Pacific \
   -v /etc/opencaanary/opencanary.conf:/opencanary.conf \
   --restart=always \
   -d \
   opencanary:latest
-docker logs -f opencanary
+docker logs -f $NAME
