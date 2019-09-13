@@ -5,8 +5,10 @@ docker rm $NAME
 docker run \
   --net=host \
   --name=$NAME \
-  -v /etc/opencanary/opencanary.conf:/opencanary.conf \
+  -e TZ=US/Pacific \
+  -v /etc/timezone:/etc/timezone:ro \
+  -v /etc/opencanary/opencanary.conf:/opencanary.conf:ro \
   --restart=always \
   -d \
-  avi0/opencanary:0.1
+  avi0/opencanary:0.2
 docker logs -f $NAME

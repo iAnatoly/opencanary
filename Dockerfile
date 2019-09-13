@@ -16,15 +16,14 @@ RUN pip install --install-option="--prefix=/install" opencanary
 
 FROM base
 
-# opencanary has some wacky dependencies
-RUN apk add openssl libffi bash sudo
+RUN apk add --no-cache openssl libffi bash sudo tzdata
 
 COPY --from=python-builder /install /usr/local
 
 #fix stupid alpine linux bug
 RUN sed -i -e "s/ctypes\.util\.find_library('c')/'$(ls /lib | grep libc.musl)'/g" /usr/local/lib/python2.7/site-packages/twisted/python/_inotify.py
 
-# copy over a config file with reasonable defaults:
+# copy over a failback config file with reasonable defaults:
 COPY opencanary.conf /root/.opencanary.conf
 
 # mount opencacary.conf in / to override the default config

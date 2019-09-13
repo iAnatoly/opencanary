@@ -1,22 +1,27 @@
 # opencanary
-## opencanary in a docker container
+## Minimalistic opencanary in a docker container
 
-This is a simple docker iomage to run opencanary and keeping its weird dependencies contained.
+This is a minimalistic docker image to run opencanary and keeping its weird dependencies contained.
 
-I am using python-alpine to minimize the image size.
+Main design principles:
 
-I am installing dev dependencies in the builder image to minimize the image size.
+1. Minimalistic base image (python2.7-alipine)
+2. Exclusion of build dependencoies from production image
+3. Only necessary processes - run opencanaryd in foreground
 
-I am patching inotify to fix the stupoid alpine find_library bug.
+Notable hacks:
 
-I am running opencanary in foreground, so that container dies when opencanary dies.
+1. I am patching inotify to fix the stupid alpine find_library bug (small prioce to pay for the image size)
+2. I include a default config in /root/.opencanary.conf, in case a user is too lazy to provide a customized config file. I highly recommend providing a customized config file with external logging/alerting, but I guess it is OK to use a default as a POC.
+3. The image is only supported on two architectures - arm32v7 (Raspbery Pi 3b), and amd x86_64. It is fairly easy to build it for other architectures, but I do not use other architectures, so I did not.
 
-I recommend running it as detached container with autorestart:
+I recommend running the image as detached container with autorestart:
 
 ```bash
 docker run \
   --net=host \      # use host network, no need to be shy
   --name=canary \   # let us call it canary 
+  -e TZ=US/Pacific \ # set the timezone correctly
   -v /etc/opencanary/opencanary.conf:/opencanary.conf \ # map the config file. Make sure the file is actually there. 
   --restart=always \ # restart on reboot or on failure
   -d \              # detach 
